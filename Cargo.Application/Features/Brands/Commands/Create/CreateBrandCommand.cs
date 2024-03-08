@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using CarGo.Application.Services.Repositories;
+using CarGo.Domain.Entities;
 using MediatR;
 
 namespace CarGo.Application.Features.Brands.Commands.Create
@@ -14,11 +17,24 @@ namespace CarGo.Application.Features.Brands.Commands.Create
 
         public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, CreatedBrandResponse>
         {
-            public Task<CreatedBrandResponse> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
+            private readonly IBrandRepository _brandRepository;
+            private readonly IMapper _mapper;
+            public CreateBrandCommandHandler(IBrandRepository brandRepository, IMapper mapper)
             {
+                _brandRepository = brandRepository;
+                _mapper = mapper;
+            }
 
+            public async Task<CreatedBrandResponse> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
+            {
+                Brand brand = _mapper.Map<Brand>(request);
+                brand.Id = Guid.NewGuid();
+                
+                await _brandRepository.AddAsync(brand);
 
-                throw new NotImplementedException();
+                CreatedBrandResponse createdBrandResponse = _mapper.Map<CreatedBrandResponse>(brand);
+
+                return createdBrandResponse;
             }
         }
     }
