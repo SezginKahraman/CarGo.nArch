@@ -1,4 +1,6 @@
 ﻿using CarGo.Application.Features.Brands.Commands.Create;
+using CarGo.Application.Features.Brands.Commands.Delete;
+using CarGo.Application.Features.Brands.Commands.Update;
 using CarGo.Application.Features.Brands.Queries.GetById;
 using CarGo.Application.Features.Brands.Queries.GetList;
 using Core.Application.Requests;
@@ -16,6 +18,20 @@ namespace CarGo.API.Controllers
         public async Task<IActionResult> Add([FromBody]CreateBrandCommand createBrandCommand)
         {
             CreatedBrandResponse response = await Mediator.Send(createBrandCommand);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateBrandCommand updateBrandCommand)
+        {
+            UpdatedBrandResponse response = await Mediator.Send(updateBrandCommand);
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] DeleteBrandCommand deleteBrandCommand)
+        {
+            DeletedBrandResponse response = await Mediator.Send(deleteBrandCommand);
             return Ok(response);
         }
 

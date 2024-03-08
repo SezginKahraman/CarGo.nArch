@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarGo.Application.Features.Brands.Queries.GetById
+namespace CarGo.Application.Features.Brands.Commands.Update
 {
-    public class GetByIdBrandResponse
+    public class UpdatedBrandResponse
     {
         public Guid Id { get; set; }
 
@@ -14,9 +14,6 @@ namespace CarGo.Application.Features.Brands.Queries.GetById
 
         public DateTime CreatedDate { get; set; }
 
-        public DateTime? UpdatedDate { get; set; }
-
-        public DateTime? DeletedDate { get; set; }
-
+        public DateTime UpdatedDate { get; set;}
     }
 }
