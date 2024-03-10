@@ -1,6 +1,7 @@
 
 using CarGo.Application;
 using CarGo.Persistance;
+using Core.CrossCuttingConcerns.Exceptions.Extensions;
 
 namespace CarGo.API
 {
@@ -30,10 +31,12 @@ namespace CarGo.API
                 app.UseSwaggerUI();
             }
 
+            if (app.Environment.IsProduction())
+                app.ConfigureCustomExceptionMiddleware();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
