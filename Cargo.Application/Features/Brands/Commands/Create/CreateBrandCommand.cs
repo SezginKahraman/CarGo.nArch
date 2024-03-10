@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarGo.Application.Features.Brands.Rules;
 using CarGo.Application.Services.Repositories;
 using CarGo.Domain.Entities;
 using MediatR;
@@ -19,15 +20,21 @@ namespace CarGo.Application.Features.Brands.Commands.Create
         {
             private readonly IBrandRepository _brandRepository;
             private readonly IMapper _mapper;
-            public CreateBrandCommandHandler(IBrandRepository brandRepository, IMapper mapper)
+            private readonly BrandBusinessRules _brandBusinessRules;
+
+            public CreateBrandCommandHandler(IBrandRepository brandRepository, IMapper mapper, BrandBusinessRules brandBusinessRules)
             {
                 _brandRepository = brandRepository;
                 _mapper = mapper;
+                _brandBusinessRules = brandBusinessRules;
             }
 
             public async Task<CreatedBrandResponse> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
             {
+                await _brandBusinessRules.BrandNameCannotBeDuplicatedWhenInserted(request.Name);
+
                 Brand brand = _mapper.Map<Brand>(request);
+
                 brand.Id = Guid.NewGuid();
                 
                 await _brandRepository.AddAsync(brand);

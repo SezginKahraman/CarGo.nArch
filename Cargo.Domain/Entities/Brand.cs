@@ -11,12 +11,14 @@ namespace CarGo.Domain.Entities
     {
         public string Name { get; set; }
 
+        public virtual ICollection<Model> Models { get; set; } // virtual for supporting different ORMs like nHybernet etc.
+
         public Brand()
         {
-            
+            Models = new HashSet<Model>();
         }
 
-        public Brand(Guid id, string name)
+        public Brand(Guid id, string name):this()
         {
             Id = id;
             Name = name;

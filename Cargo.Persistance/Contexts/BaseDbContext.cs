@@ -16,10 +16,18 @@ namespace CarGo.Persistance.Contexts
 
         public DbSet<Brand> Brands { get; set; }
 
+        public DbSet<Car> Cars { get; set; }
+
+        public DbSet<Fuel> Fuels { get; set; }
+
+        public DbSet<Model> Models { get; set; }
+
+        public DbSet<Transmission> Transmision { get; set; }
+
         public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration): base(dbContextOptions)
         {
             Configuration = configuration;
-            Database.EnsureCreated();
+            Database.EnsureCreated(); // in first migration, close this line for running.
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
