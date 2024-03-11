@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Application.Pipelines.Transactions;
 using Core.Application.Rules;
 using FluentValidation;
 using Core.Application.Pipelines.Validations;
@@ -25,6 +26,8 @@ namespace CarGo.Application
             {
                 conf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
                 conf.AddOpenBehavior(typeof(RequestValidatorBehavior<,>));
+
+                conf.AddOpenBehavior(typeof(TransactionScopeBehavior<,>));
             });
 
             return services;
