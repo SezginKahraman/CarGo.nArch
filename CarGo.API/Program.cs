@@ -31,7 +31,7 @@ namespace CarGo.API
                 app.UseSwaggerUI();
             }
 
-            if (app.Environment.IsProduction())
+            //if (app.Environment.IsProduction())
                 app.ConfigureCustomExceptionMiddleware();
 
             app.UseHttpsRedirection();

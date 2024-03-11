@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Application.Rules;
+using FluentValidation;
+using Core.Application.Pipelines.Validations;
 
 namespace CarGo.Application
 {
@@ -14,10 +16,15 @@ namespace CarGo.Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
             services.AddSubClassesOfType(Assembly.GetExecutingAssembly(), typeof(BaseBusinessRules));
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
             services.AddMediatR(conf =>
             {
                 conf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                conf.AddOpenBehavior(typeof(RequestValidatorBehavior<,>));
             });
 
             return services;
