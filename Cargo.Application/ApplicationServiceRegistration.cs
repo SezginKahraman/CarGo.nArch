@@ -9,6 +9,7 @@ using Core.Application.Pipelines.Transactions;
 using Core.Application.Rules;
 using FluentValidation;
 using Core.Application.Pipelines.Validations;
+using Core.Application.Pipelines.Caching;
 
 namespace CarGo.Application
 {
@@ -18,16 +19,26 @@ namespace CarGo.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+            // adds all businessRules to the IoC
             services.AddSubClassesOfType(Assembly.GetExecutingAssembly(), typeof(BaseBusinessRules));
 
+            // Fluent validation
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+            // MediatR
             services.AddMediatR(conf =>
             {
+                // add mediatR
                 conf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+
+                // pipelines - > Check all request by its fluent validation rules automaticaly
                 conf.AddOpenBehavior(typeof(RequestValidatorBehavior<,>));
 
+                // add transaction implementation
                 conf.AddOpenBehavior(typeof(TransactionScopeBehavior<,>));
+
+                // add caching implementation
+                conf.AddOpenBehavior(typeof(CachingBehavior<,>));
             });
 
             return services;
