@@ -7,13 +7,22 @@ using AutoMapper;
 using CarGo.Application.Features.Brands.Commands.Update;
 using CarGo.Application.Services.Repositories;
 using CarGo.Domain.Entities;
+using Core.Application.Pipelines.Caching;
 using MediatR;
 
 namespace CarGo.Application.Features.Brands.Commands.Delete
 {
-    public class DeleteBrandCommand : IRequest<DeletedBrandResponse>
+    public class DeleteBrandCommand : IRequest<DeletedBrandResponse>, ICacheRemoverRequest
     {
         public Guid Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string CacheKey { get; }
+
+        public string? CacheGroupKey => $"GetBrands";
+
+        public bool BypassCache => false;
 
         public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, DeletedBrandResponse>
         {

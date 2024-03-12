@@ -10,6 +10,9 @@ using Core.Application.Rules;
 using FluentValidation;
 using Core.Application.Pipelines.Validations;
 using Core.Application.Pipelines.Caching;
+using Core.Application.Pipelines.Logging;
+using Core.CrossCuttingConcerns.Serilog;
+using Core.CrossCuttingConcerns.Serilog.Loggers;
 
 namespace CarGo.Application
 {
@@ -39,7 +42,15 @@ namespace CarGo.Application
 
                 // add caching implementation
                 conf.AddOpenBehavior(typeof(CachingBehavior<,>));
+
+                // add removing cache implementation
+                conf.AddOpenBehavior(typeof(CacheRemovingBehavior<,>));
+
+                // add removing cache implementation
+                conf.AddOpenBehavior(typeof(LoggingBehavior<,>));
             });
+
+            services.AddSingleton<LoggerServiceBase, FileLogger>();
 
             return services;
         }

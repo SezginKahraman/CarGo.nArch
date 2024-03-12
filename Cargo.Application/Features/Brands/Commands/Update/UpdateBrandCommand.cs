@@ -6,15 +6,22 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarGo.Application.Services.Repositories;
 using CarGo.Domain.Entities;
+using Core.Application.Pipelines.Caching;
 using MediatR;
 
 namespace CarGo.Application.Features.Brands.Commands.Update
 {
-    public class UpdateBrandCommand : IRequest<UpdatedBrandResponse>
+    public class UpdateBrandCommand : IRequest<UpdatedBrandResponse>, ICacheRemoverRequest
     {
         public Guid Id { get; set; }
 
         public string Name { get; set; }
+
+        public string CacheKey { get; }
+
+        public string? CacheGroupKey => $"GetBrands";
+
+        public bool BypassCache => false;
 
         public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, UpdatedBrandResponse>
         {
