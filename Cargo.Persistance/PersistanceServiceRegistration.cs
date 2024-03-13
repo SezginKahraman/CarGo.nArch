@@ -21,6 +21,12 @@ namespace CarGo.Persistance
             services.AddDbContext<BaseDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("CarGo")));
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
+            services.AddScoped<IEmailAuthenticatorRepository, EmailAuthenticatorRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
+            services.AddScoped<IOtpAuthenticatorRepository, OtpAuthenticatorRepository>();
 
             return services;
         }
