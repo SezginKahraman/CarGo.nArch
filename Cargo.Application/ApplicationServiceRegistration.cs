@@ -50,7 +50,8 @@ namespace CarGo.Application
                 conf.AddOpenBehavior(typeof(LoggingBehavior<,>));
             });
 
-            services.AddSingleton<LoggerServiceBase, FileLogger>();
+            services.AddSingleton<LoggerServiceBase, FileLogger>(); // log to file
+            services.AddSingleton<LoggerServiceBase, MsSqlLogger>(); // log to mssql
 
             return services;
         }
