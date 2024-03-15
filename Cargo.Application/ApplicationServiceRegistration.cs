@@ -13,6 +13,7 @@ using Core.Application.Pipelines.Caching;
 using Core.Application.Pipelines.Logging;
 using Core.CrossCuttingConcerns.Serilog;
 using Core.CrossCuttingConcerns.Serilog.Loggers;
+using Core.Application.Pipelines.Authorization;
 
 namespace CarGo.Application
 {
@@ -48,6 +49,9 @@ namespace CarGo.Application
 
                 // add removing cache implementation
                 conf.AddOpenBehavior(typeof(LoggingBehavior<,>));
+
+                // authorization pipeline - > Secured Request
+                conf.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
             });
 
             services.AddSingleton<LoggerServiceBase, FileLogger>(); // log to file
