@@ -16,13 +16,12 @@ namespace CarGo.Application.Features.Brands.Commands.Create
 {                                              // what this request is going to response as. 
     public class CreateBrandCommand : IRequest<CreatedBrandResponse>, // it says, you are an request which is going to be used by user (The request will come from API !) 
      ITransactionalRequest, 
-     ICacheRemoverRequest,
      ILoggableRequest
     {
         // A createCommand will come through as a request, this request will be mapped to domain, then saved to the database.
         public string Name { get; set; }
 
-        public string CacheKey { get; }
+        //public string CacheKey { get; }
 
         public string? CacheGroupKey => $"GetBrands";
 
